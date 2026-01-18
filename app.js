@@ -1,62 +1,98 @@
+/* ---------------- AUTH CHECK ---------------- */
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const supabase = createClient(
-  "https://ivtjnwuhjtihosutpmss.supabase.co",
-  "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
-);
+const SUPABASE_URL = "https://ivtjnwuhjtihosutpmss.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn";
 
-// 🔒 AUTH GUARD
-const { data: { session } } = await supabase.auth.getSession();
-if (!session) window.location.href = "/";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const tableBody = document.getElementById("leads");
-const filter = document.getElementById("filter");
-const search = document.getElementById("search");
-const liveBtn = document.getElementById("liveBtn");
+const {
+  data: { session },
+} = await supabase.auth.getSession();
 
-let leads = [];
-let liveInterval = null;
-
-// LOAD DATA
-async function loadLeads() {
-  const { data } = await supabase
-    .from("leads")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  leads = data || [];
-  render();
+if (!session) {
+  window.location.href = "/index.html";
 }
 
-function render() {
+/* ---------------- TABLE ---------------- */
+const tableBody = document.getElementById("leads");
+const filter = document.getElementById("filter");
+const searchInput = document.getElementById("search");
+
+let allLeads = [];
+
+/* ---------------- FETCH LEADS ---------------- */
+async function loadLeads() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      },
+    }
+  );
+
+  allLeads = await res.json();
+  renderTable();
+}
+
+function renderTable() {
+  const type = filter.value;
+  const search = searchInput.value.toLowerCase();
+
   tableBody.innerHTML = "";
 
-  const f = filter.value;
-  const s = search.value.toLowerCase();
-
-  leads
-    .filter(l => f === "all" || l.type === f)
-    .filter(l => `${l.name} ${l.phone} ${l.location}`.toLowerCase().includes(s))
-    .forEach(l => {
-      tableBody.innerHTML += `
-        <tr>
-          <td>${l.name}</td>
-          <td>${l.type}</td>
-          <td>${l.phone}</td>
-          <td>${l.email}</td>
-          <td>${l.location}</td>
-          <td>${l.budget}</td>
-          <td>${l.search_message}</td>
-          <td>${new Date(l.created_at).toLocaleString()}</td>
-        </tr>
+  allLeads
+    .filter((l) => (type === "all" ? true : l.type === type))
+    .filter((l) =>
+      `${l.name} ${l.phone} ${l.location}`.toLowerCase().includes(search)
+    )
+    .forEach((l) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${l.name}</td>
+        <td>${l.type}</td>
+        <td>${l.phone}</td>
+        <td>${l.email}</td>
+        <td>${l.location}</td>
+        <td>${l.budget}</td>
+        <td>${l.search_message}</td>
+        <td>${new Date(l.created_at).toLocaleString()}</td>
       `;
+      tableBody.appendChild(tr);
     });
 }
 
-filter.onchange = render;
-search.oninput = render;
+filter.addEventListener("change", renderTable);
+searchInput.addEventListener("input", renderTable);
 
-// 🔴 LIVE DEMO
+/* ---------------- LIVE DEMO (REAL NAMES) ---------------- */
+const liveBtn = document.getElementById("liveBtn");
+
+const NAMES = [
+  "Rahul Mehta",
+  "Ankit Verma",
+  "Rohit Singh",
+  "Amit Sharma",
+  "Sourav Das",
+  "Neha Gupta",
+  "Pooja Malhotra",
+  "Kunal Jain",
+];
+
+const LOCATIONS = [
+  "Mumbai",
+  "Delhi",
+  "Kolkata",
+  "Bangalore",
+  "Chennai",
+  "Pune",
+  "Salt Lake",
+];
+
+let liveInterval = null;
+
 liveBtn.onclick = () => {
   if (liveInterval) {
     clearInterval(liveInterval);
@@ -66,29 +102,55 @@ liveBtn.onclick = () => {
   }
 
   liveBtn.textContent = "Stop";
+
   liveInterval = setInterval(() => {
-    leads.unshift({
-      name: "Demo User",
-      type: ["Buy","Sell","Rent"][Math.floor(Math.random()*3)],
+    const name = random(NAMES);
+    const location = random(LOCATIONS);
+    const type = random(["Buy", "Sell", "Rent"]);
+
+    allLeads.unshift({
+      name,
+      type,
       phone: "9XXXXXXXXX",
-      email: "demo@gmail.com",
-      location: ["Delhi","Mumbai","Kolkata"][Math.floor(Math.random()*3)],
+      email: name.split(" ")[0].toLowerCase() + "@gmail.com",
+      location,
       budget: "Demo",
-      search_message: "Live demo lead",
-      created_at: new Date().toISOString()
+      search_message: `${name} searched for property in ${location}`,
+      created_at: new Date().toISOString(),
     });
-    render();
-  }, 3000);
+
+    renderTable();
+  }, 2500);
 };
 
-// 🗺️ MAP DEMO
-document.getElementById("mapBtn").onclick = () => {
-  document.getElementById("mapModal").classList.remove("hidden");
-  document.getElementById("mapList").innerHTML =
-    [...new Set(leads.map(l => l.location))].map(l => `<li>${l}</li>`).join("");
+function random(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ---------------- MAP (NO API, WORLD MAP) ---------------- */
+const mapBtn = document.getElementById("mapBtn");
+const mapModal = document.getElementById("mapModal");
+const closeMap = document.getElementById("closeMap");
+
+let map;
+
+mapBtn.onclick = () => {
+  mapModal.classList.remove("hidden");
+
+  setTimeout(() => {
+    if (!map) {
+      map = L.map("map").setView([20, 0], 2);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+    }
+  }, 100);
 };
 
-window.closeMap = () =>
-  document.getElementById("mapModal").classList.add("hidden");
+closeMap.onclick = () => {
+  mapModal.classList.add("hidden");
+};
 
+/* ---------------- INIT ---------------- */
 loadLeads();
