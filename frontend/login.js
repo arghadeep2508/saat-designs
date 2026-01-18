@@ -1,20 +1,35 @@
+// ===============================
+// SAAT SIMPLE FIXED LOGIN
+// ===============================
+
+// FIXED CREDENTIALS
+const FIXED_USERNAME = "admin";
+const FIXED_PASSWORD = "admin123";
+
+// ELEMENTS
 const form = document.getElementById("loginForm");
-const errorBox = document.getElementById("error");
+const errorText = document.getElementById("error");
 
-// SIMPLE INTERNAL CREDENTIALS
-const INTERNAL_EMAIL = "admin@saat";
-const INTERNAL_PASSWORD = "123456";
+// SAFETY CHECK
+if (!form) {
+  console.error("Login form not found");
+}
 
-form.addEventListener("submit", (e) => {
+// SUBMIT HANDLER
+form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const email = document.getElementById("email").value.trim();
+  const username = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  if (email === INTERNAL_EMAIL && password === INTERNAL_PASSWORD) {
+  // VALIDATION
+  if (username === FIXED_USERNAME && password === FIXED_PASSWORD) {
+    // SAVE LOGIN STATE
     localStorage.setItem("saat_logged_in", "true");
-    window.location.href = "dashboard.html";
+
+    // REDIRECT TO DASHBOARD
+    window.location.href = "frontend/dashboard.html";
   } else {
-    errorBox.textContent = "Invalid credentials";
+    errorText.textContent = "Invalid username or password";
   }
 });
