@@ -1,11 +1,45 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  font-family: Arial;
+  background: #f5f7fa;
   margin: 0;
-  color: #111;
 }
 
-/* LOGIN */
+.top-bar {
+  background: #111;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.live-btn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th {
+  background: #222;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.type.buy { color: green; font-weight: bold; }
+.type.sell { color: red; font-weight: bold; }
+.type.rent { color: blue; font-weight: bold; }
+
 .login-page {
   display: flex;
   justify-content: center;
@@ -16,97 +50,9 @@ body {
 .login-box {
   background: white;
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.1);
+  border-radius: 6px;
 }
 
-.login-box input {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-}
-
-.login-box button {
-  width: 100%;
-  padding: 8px;
-}
-
-.error-text {
+.error {
   color: red;
-  margin-top: 8px;
-}
-
-/* DASHBOARD */
-.top-bar {
-  background: #1f2933;
-  color: white;
-  padding: 14px 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.live-badge {
-  background: #22c55e;
-  padding: 4px 10px;
-  border-radius: 6px;
-}
-
-.controls {
-  padding: 12px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-}
-
-thead {
-  background: #111;
-  color: white;
-}
-
-th, td {
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-tbody tr:nth-child(even) {
-  background: #f9fafb;
-}
-
-/* BADGES */
-.badge {
-  padding: 3px 8px;
-  border-radius: 6px;
-  color: white;
-}
-
-.badge-buy { background: #16a34a; }
-.badge-sell { background: #dc2626; }
-.badge-rent { background: #2563eb; }
-
-/* MAP */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 15px;
-  width: 80%;
-}
-
-#map {
-  height: 400px;
-}
-
-.hidden {
-  display: none;
 }

@@ -1,59 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>SAAT – Internal Leads Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  <title>SAAT Leads Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header class="top-bar">
-    <h1>SAAT Leads Dashboard</h1>
-    <span class="live-badge">Live</span>
-  </header>
+<header class="top-bar">
+  <h1>SAAT Leads Dashboard</h1>
+  <button class="live-btn">Live</button>
+</header>
 
-  <div class="controls">
-    <select id="filter">
-      <option value="all">All</option>
-      <option value="Buy">Buy</option>
-      <option value="Rent">Rent</option>
-      <option value="Sell">Sell</option>
-    </select>
+<div class="controls">
+  <select id="filter">
+    <option value="all">All</option>
+    <option value="Buy">Buy</option>
+    <option value="Rent">Rent</option>
+    <option value="Sell">Sell</option>
+  </select>
 
-    <input id="search" placeholder="Search name / phone / location" />
-    <button id="mapBtn">Map</button>
-  </div>
+  <input id="search" placeholder="Search name / phone / location" />
+</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Location</th>
-        <th>Budget</th>
-        <th>Message</th>
-        <th>Created</th>
-      </tr>
-    </thead>
-    <tbody id="leads"></tbody>
-  </table>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Location</th>
+      <th>Budget</th>
+      <th>Message</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody id="leads"></tbody>
+</table>
 
-  <div id="mapModal" class="modal hidden">
-    <div class="modal-content">
-      <h2>World Map (Demo)</h2>
-      <div id="map"></div>
-      <button id="closeMap">Close</button>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

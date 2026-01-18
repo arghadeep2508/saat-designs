@@ -21,9 +21,9 @@ form.addEventListener("submit", async (e) => {
   });
 
   if (error) {
-    errorBox.textContent = error.message;
+    errorBox.textContent = "Invalid login credentials";
     return;
   }
 
-  window.location.href = "dashboard.html";
+  window.location.href = "/dashboard.html";
 });
