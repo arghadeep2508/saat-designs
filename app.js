@@ -7,14 +7,18 @@ const SUPABASE_ANON_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ================= AUTH GUARD ================= */
+/* ================= HARD AUTH GUARD ================= */
 const {
-  data: { user },
-} = await supabase.auth.getUser();
+  data: { session },
+} = await supabase.auth.getSession();
 
-if (!user) {
-  window.location.href = "/login.html";
+if (!session) {
+  window.location.replace("/login.html");
+  throw new Error("Not authenticated");
 }
+
+/* Show page only AFTER auth */
+document.body.style.display = "block";
 
 /* ================= DOM ================= */
 const tableBody = document.getElementById("leads");
@@ -22,6 +26,7 @@ const filter = document.getElementById("filter");
 const searchInput = document.getElementById("search");
 const liveBtn = document.getElementById("liveBtn");
 const mapBtn = document.getElementById("mapBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
 let allLeads = [];
 let liveInterval = null;
@@ -34,7 +39,7 @@ async function loadLeads() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Load error:", error.message);
+    console.error(error.message);
     return;
   }
 
@@ -44,13 +49,13 @@ async function loadLeads() {
 
 /* ================= RENDER ================= */
 function renderTable() {
-  const typeFilter = filter.value;
+  const type = filter.value;
   const search = searchInput.value.toLowerCase();
 
   tableBody.innerHTML = "";
 
   allLeads
-    .filter((l) => (typeFilter === "all" ? true : l.type === typeFilter))
+    .filter((l) => (type === "all" ? true : l.type === type))
     .filter((l) =>
       [l.name, l.phone, l.location].join(" ").toLowerCase().includes(search)
     )
@@ -58,7 +63,7 @@ function renderTable() {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${l.name}</td>
-        <td><span class="badge ${l.type.toLowerCase()}">${l.type}</span></td>
+        <td>${l.type}</td>
         <td>${l.phone}</td>
         <td>${l.email}</td>
         <td>${l.location}</td>
@@ -71,11 +76,16 @@ function renderTable() {
 }
 
 /* ================= EVENTS ================= */
-filter.addEventListener("change", renderTable);
-searchInput.addEventListener("input", renderTable);
+filter.onchange = renderTable;
+searchInput.oninput = renderTable;
 
-/* ================= LIVE BUTTON ================= */
-liveBtn.addEventListener("click", async () => {
+logoutBtn.onclick = async () => {
+  await supabase.auth.signOut();
+  window.location.replace("/login.html");
+};
+
+/* LIVE */
+liveBtn.onclick = () => {
   if (liveInterval) {
     clearInterval(liveInterval);
     liveInterval = null;
@@ -93,23 +103,22 @@ liveBtn.addEventListener("click", async () => {
     );
     await loadLeads();
   }, 3000);
-});
+};
 
-/* ================= MAP ================= */
-mapBtn.addEventListener("click", () => {
-  if (!allLeads.length) return alert("No leads");
-
+/* MAP */
+mapBtn.onclick = () => {
+  if (!allLeads.length) return;
   const loc = allLeads[0].location;
   document.getElementById("mapModal").style.display = "block";
   document.getElementById("mapFrame").src =
     "https://maps.google.com/maps?q=" +
     encodeURIComponent(loc) +
     "&output=embed";
-});
+};
 
 window.closeMap = () => {
   document.getElementById("mapModal").style.display = "none";
 };
 
-/* ================= INIT ================= */
+/* INIT */
 loadLeads();

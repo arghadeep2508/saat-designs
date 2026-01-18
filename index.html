@@ -5,20 +5,21 @@
   <title>SAAT – Internal Leads Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
+<body style="display:none">
+
+  <!-- TOP BAR -->
   <div style="display:flex; justify-content:space-between; align-items:center;">
     <h1>SAAT Leads Dashboard</h1>
 
-    <button
-      id="liveBtn"
-      style="background:green;color:white;padding:6px 14px;border:none;border-radius:4px;cursor:pointer;"
-    >
-      Live
-    </button>
+    <div>
+      <button id="mapBtn">Map</button>
+      <button id="liveBtn" style="background:green;color:white;">Live</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
   </div>
 
-  <div style="margin-bottom: 12px;">
+  <div style="margin-bottom:12px;">
     <select id="filter">
       <option value="all">All</option>
       <option value="Buy">Buy</option>
@@ -27,13 +28,10 @@
     </select>
 
     <input
-      type="text"
       id="search"
       placeholder="Search name / phone / location"
-      style="margin-left: 10px; padding: 4px;"
+      style="margin-left:10px;padding:4px;"
     />
-
-    <button id="mapBtn" style="margin-left:10px;">Map</button>
   </div>
 
   <table>
@@ -53,13 +51,17 @@
   </table>
 
   <!-- MAP MODAL -->
-  <div id="mapModal" style="display:none;position:fixed;top:10%;left:10%;width:80%;height:80%;background:#fff;border:1px solid #ccc;">
-    <button onclick="closeMap()">Close</button>
-    <iframe id="mapFrame" width="100%" height="95%"></iframe>
+  <div
+    id="mapModal"
+    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;"
+  >
+    <div style="width:80%;height:80%;margin:5% auto;background:white;">
+      <button onclick="closeMap()">Close</button>
+      <iframe id="mapFrame" width="100%" height="100%"></iframe>
+    </div>
   </div>
 
-  <!-- ⚠️ THIS IS THE FIX -->
+  <!-- IMPORTANT: MODULE -->
   <script type="module" src="app.js"></script>
-
 </body>
 </html>
