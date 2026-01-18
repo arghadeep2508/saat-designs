@@ -1,221 +1,123 @@
-body { font-family: Arial; margin: 20px; }
-.center { display:flex; justify-content:center; align-items:center; height:100vh; }
-.login-box { border:1px solid #ccc; padding:30px; width:300px; }
-.login-box input { width:100%; margin:8px 0; padding:6px; }
-.login-box button { width:100%; padding:8px; }
-.error { color:red; }
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-.top-bar { display:flex; justify-content:space-between; align-items:center; }
-.live { background:green; color:white; padding:6px 12px; }
+body {
+  background: #f5f7fa;
+  color: #111;
+  padding: 20px;
+}
 
-.controls { margin:10px 0; }
-table { width:100%; border-collapse:collapse; }
-th, td { border:1px solid #ddd; padding:6px; }
-
-.modal { position:fixed; inset:0; background:rgba(0,0,0,.5); }
-.modal-box { background:#fff; margin:100px auto; padding:20px; width:300px; }
-.hidden { display:none; }
+/* ===== HEADER ===== */
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.live-btn {
-  background: green;
-  color: white;
-  border: none;
-  padding: 6px 14px;
-  cursor: pointer;
-}
-
-.controls {
-  margin-bottom: 10px;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: white;
-  padding: 15px;
-  width: 80%;
-  max-width: 900px;
-}
-
-#map {
-  height: 400px;
-  margin-bottom: 10px;
-}
-
-/* ===== SAAT DASHBOARD COLOR POLISH (SAFE) ===== */
-
-/* Header */
-.top-bar h1 {
-  color: #111;
-  letter-spacing: 0.5px;
-}
-
-/* Live button polish */
-.live-btn {
-  background: linear-gradient(135deg, #1faa00, #138000);
-  border-radius: 4px;
-  box-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
-}
-.live-btn:hover {
-  opacity: 0.9;
-}
-
-/* Table header */
-table thead tr {
-  background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
-  color: #fff;
-}
-
-/* Table rows */
-table tbody tr {
-  transition: background 0.2s ease;
-}
-table tbody tr:hover {
-  background: #f4f7fb;
-}
-
-/* Type badge coloring */
-td:nth-child(2) {
-  font-weight: bold;
-}
-td:nth-child(2):contains("Buy") {
-  color: #0a8a0a;
-}
-td:nth-child(2):contains("Sell") {
-  color: #c40000;
-}
-td:nth-child(2):contains("Rent") {
-  color: #004fd8;
-}
-
-/* Inputs & controls */
-.controls select,
-.controls input,
-.controls button {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-.controls button:hover {
-  background: #efefef;
-}
-
-/* Map modal */
-.modal-content {
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-/* ===== TYPE BADGES ===== */
-.type-badge {
-  padding: 4px 10px;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 13px;
-  display: inline-block;
-}
-
-.type-buy {
-  background: linear-gradient(135deg, #16a34a, #15803d);
-}
-
-.type-sell {
-  background: linear-gradient(135deg, #dc2626, #991b1b);
-}
-
-.type-rent {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-}
-
-/* Table polish */
-table tbody tr:hover {
-  background: #f4f7fb;
-}
-
-/* Header polish */
-table thead tr {
-  background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
-  color: white;
-}
-/* ===== Dashboard Enhancements (SAFE) ===== */
-
-body {
-  background: #f5f7fb;
-}
-
-.top-bar {
-  background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  padding: 12px 20px;
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .top-bar h1 {
-  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 .live-btn {
   background: #22c55e;
-  color: white;
+  color: #fff;
   border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 8px 16px;
   font-weight: bold;
+  border-radius: 6px;
+  cursor: default;
 }
 
-/* Table */
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.controls select,
+.controls input,
+.controls button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.controls button {
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #333;
+}
+
+/* ===== TABLE ===== */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 thead {
-  background: #111;
-  color: white;
+  background: linear-gradient(90deg, #111, #333);
+  color: #fff;
 }
 
 th, td {
-  padding: 10px;
-  border: 1px solid #e5e7eb;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-tbody tr:nth-child(even) {
-  background: #f9fafb;
+tbody tr {
+  background: #fff;
+  transition: background 0.2s ease;
 }
 
 tbody tr:hover {
-  background: #eef2ff;
+  background: #f1f5f9;
 }
 
-/* Type badges */
-.badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  color: white;
+/* ===== TYPE BADGES ===== */
+.type-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: bold;
+  color: #fff;
 }
 
-.buy { background: #16a34a; }
-.sell { background: #dc2626; }
-.rent { background: #2563eb; }
+.type-buy {
+  background: #16a34a;
+}
 
-/* Map modal */
+.type-sell {
+  background: #dc2626;
+}
+
+.type-rent {
+  background: #2563eb;
+}
+
+/* ===== MODAL ===== */
 .modal {
   position: fixed;
   inset: 0;
@@ -223,15 +125,16 @@ tbody tr:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999;
 }
 
-.modal.hidden {
+.hidden {
   display: none;
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
+  background: #fff;
+  padding: 16px;
   width: 80%;
   max-width: 900px;
   border-radius: 10px;
@@ -239,5 +142,14 @@ tbody tr:hover {
 
 #map {
   height: 400px;
-  margin: 10px 0;
+  margin: 12px 0;
+}
+
+#closeMap {
+  padding: 8px 14px;
+  border: none;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
 }
