@@ -6,7 +6,7 @@ const SUPABASE_KEY = "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* ---------------- AUTH PROTECTION ---------------- */
+/* ---------------- AUTH CHECK ---------------- */
 const {
   data: { user },
 } = await supabase.auth.getUser();
@@ -25,19 +25,19 @@ let allLeads = [];
 let live = false;
 let intervalId = null;
 
-/* ---------------- FETCH DATA ---------------- */
+/* ---------------- FETCH DATA (AUTH SAFE) ---------------- */
 async function loadLeads() {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-      },
-    }
-  );
+  const { data, error } = await supabase
+    .from("leads")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-  allLeads = await res.json();
+  if (error) {
+    console.error("Fetch error:", error.message);
+    return;
+  }
+
+  allLeads = data;
   renderTable();
 }
 
@@ -55,7 +55,6 @@ function renderTable() {
     )
     .forEach((l) => {
       const tr = document.createElement("tr");
-
       tr.innerHTML = `
         <td>${l.name}</td>
         <td><span class="badge ${l.type.toLowerCase()}">${l.type}</span></td>
@@ -66,7 +65,6 @@ function renderTable() {
         <td>${l.search_message}</td>
         <td>${new Date(l.created_at).toLocaleString()}</td>
       `;
-
       tableBody.appendChild(tr);
     });
 }
@@ -75,7 +73,7 @@ function renderTable() {
 filter.addEventListener("change", renderTable);
 searchInput.addEventListener("input", renderTable);
 
-/* ---------------- MAP BUTTON ---------------- */
+/* ---------------- MAP ---------------- */
 document.getElementById("mapBtn").onclick = () => {
   const locations = [...new Set(allLeads.map((l) => l.location))].join(" | ");
   document.getElementById("mapFrame").src =
@@ -87,7 +85,7 @@ window.closeMap = () => {
   document.getElementById("mapModal").style.display = "none";
 };
 
-/* ---------------- LIVE BUTTON + AUTO DATA ---------------- */
+/* ---------------- LIVE BUTTON ---------------- */
 liveBtn.onclick = () => {
   live = !live;
 
@@ -96,14 +94,11 @@ liveBtn.onclick = () => {
     liveBtn.innerText = "Stop";
 
     intervalId = setInterval(async () => {
-      await fetch(
-        `${SUPABASE_URL}/functions/v1/generate-lead`,
-        {
-          headers: {
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-          },
-        }
-      );
+      await fetch(`${SUPABASE_URL}/functions/v1/generate-lead`, {
+        headers: {
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+        },
+      });
       loadLeads();
     }, 5000);
   } else {
