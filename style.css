@@ -120,3 +120,35 @@ td:nth-child(2):contains("Rent") {
   border-radius: 6px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
+/* ===== TYPE BADGES ===== */
+.type-badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.type-buy {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.type-sell {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+}
+
+.type-rent {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+}
+
+/* Table polish */
+table tbody tr:hover {
+  background: #f4f7fb;
+}
+
+/* Header polish */
+table thead tr {
+  background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+  color: white;
+}
