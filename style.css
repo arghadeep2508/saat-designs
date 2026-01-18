@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+select, input {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+thead {
+  background: #222;
+  color: #fff;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.badge.Buy { background: #2e7d32; }
+.badge.Rent { background: #0277bd; }
+.badge.Sell { background: #c62828; }
+.badge {
+  padding: 4px 8px;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.badge.buy { background: green; }
+.badge.sell { background: red; }
+.badge.rent { background: blue; }
