@@ -58,3 +58,30 @@ filter.onchange = render;
 search.oninput = render;
 
 loadLeads();
+// ===== MAP (SIMPLE WORLD MAP) =====
+const openMap = document.getElementById("openMap");
+const closeMap = document.getElementById("closeMap");
+const modal = document.getElementById("mapModal");
+
+let mapInitialized = false;
+
+openMap.onclick = () => {
+  modal.classList.remove("hidden");
+
+  if (!mapInitialized) {
+    const map = L.map("map").setView([20, 0], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    mapInitialized = true;
+  }
+};
+
+closeMap.onclick = () => {
+  modal.classList.add("hidden");
+};
+document.querySelector(".live-btn").onclick = () => {
+  loadLeads();
+};
