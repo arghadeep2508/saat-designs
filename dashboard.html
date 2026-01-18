@@ -7,9 +7,12 @@
 </head>
 <body>
 
-  <h1>SAAT Leads Dashboard</h1>
+  <div class="top-bar">
+    <h1>SAAT Leads Dashboard</h1>
+    <span id="liveBadge">Live</span>
+  </div>
 
-  <div style="margin-bottom: 12px;">
+  <div class="controls">
     <select id="filter">
       <option value="all">All</option>
       <option value="Buy">Buy</option>
@@ -21,22 +24,9 @@
       type="text"
       id="search"
       placeholder="Search name / phone / location"
-      style="margin-left: 10px; padding: 4px;"
     />
 
     <button id="mapBtn">Map</button>
-
-    <button id="liveBtn" style="
-      float:right;
-      background: green;
-      color: white;
-      padding: 6px 14px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    ">
-      Live
-    </button>
   </div>
 
   <table>
@@ -55,8 +45,6 @@
     <tbody id="leads"></tbody>
   </table>
 
-  <!-- 🔐 REQUIRED -->
   <script type="module" src="app.js"></script>
-
 </body>
 </html>

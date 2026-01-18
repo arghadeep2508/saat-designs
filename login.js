@@ -5,9 +5,14 @@ const supabase = createClient(
   "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
 );
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+const btn = document.getElementById("loginBtn");
+const errorEl = document.getElementById("error");
+
+btn.addEventListener("click", async () => {
+  errorEl.textContent = "";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -15,8 +20,10 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   });
 
   if (error) {
-    document.getElementById("error").innerText = error.message;
-  } else {
-    window.location.href = "/dashboard.html";
+    errorEl.textContent = "Invalid login credentials";
+    return;
   }
+
+  // SUCCESS → go to dashboard
+  window.location.href = "dashboard.html";
 });
