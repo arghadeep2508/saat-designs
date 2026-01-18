@@ -1,35 +1,17 @@
-body { font-family: Arial; padding: 20px; }
-table { width: 100%; border-collapse: collapse; }
-th, td { border: 1px solid #ddd; padding: 6px; }
+body { font-family: Arial; margin: 20px; }
+.center { display:flex; justify-content:center; align-items:center; height:100vh; }
+.login-box { border:1px solid #ccc; padding:30px; width:300px; }
+.login-box input { width:100%; margin:8px 0; padding:6px; }
+.login-box button { width:100%; padding:8px; }
+.error { color:red; }
 
-.top-bar { margin-bottom: 10px; }
+.top-bar { display:flex; justify-content:space-between; align-items:center; }
+.live { background:green; color:white; padding:6px 12px; }
 
-.badge { padding: 3px 6px; color: white; border-radius: 4px; }
-.buy { background: green; }
-.sell { background: red; }
-.rent { background: blue; }
+.controls { margin:10px 0; }
+table { width:100%; border-collapse:collapse; }
+th, td { border:1px solid #ddd; padding:6px; }
 
-.live-on { background: green; color: white; }
-.live-off { background: #ccc; }
-
-.modal {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  justify-content: center; align-items: center;
-}
-
-.modal-box {
-  background: white; padding: 20px;
-}
-
-.map-card {
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
-}
-
-.login-box {
-  width: 300px; margin: 100px auto;
-  border: 1px solid #ddd; padding: 20px;
-}
-
-.error { color: red; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,.5); }
+.modal-box { background:#fff; margin:100px auto; padding:20px; width:300px; }
+.hidden { display:none; }

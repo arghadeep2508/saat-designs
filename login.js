@@ -5,11 +5,11 @@ const supabase = createClient(
   "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
 );
 
-const form = document.getElementById("login-form");
-const errorBox = document.getElementById("error");
+const loginBtn = document.getElementById("loginBtn");
+const errorEl = document.getElementById("error");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+loginBtn.addEventListener("click", async () => {
+  errorEl.textContent = "";
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -20,7 +20,7 @@ form.addEventListener("submit", async (e) => {
   });
 
   if (error) {
-    errorBox.textContent = "Invalid login credentials";
+    errorEl.textContent = "Invalid login credentials";
     return;
   }
 
