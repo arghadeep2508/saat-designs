@@ -1,0 +1,13 @@
+{
+  "name": "saat-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node autoRun.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@supabase/supabase-js": "^2.90.1",
+    "node-cron": "^3.0.3"
+  }
+}
