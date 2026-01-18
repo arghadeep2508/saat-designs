@@ -199,3 +199,28 @@ tbody tr:hover {
   color: red;
   margin-top: 8px;
 }
+/* ===== TYPE COLOR WITHOUT HTML/JS CHANGE ===== */
+
+/* Type column = 2nd column */
+tbody td:nth-child(2) {
+  font-weight: 600;
+}
+
+/* BUY */
+tbody td:nth-child(2):has(:not(*)) {
+}
+
+/* Green for Buy */
+tbody td:nth-child(2):contains("Buy") {
+  color: #1e8e3e;
+}
+
+/* Red for Sell */
+tbody td:nth-child(2):contains("Sell") {
+  color: #d93025;
+}
+
+/* Blue for Rent */
+tbody td:nth-child(2):contains("Rent") {
+  color: #1a73e8;
+}
