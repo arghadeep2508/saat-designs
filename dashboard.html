@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SAAT – Internal Leads Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>SAAT Leads Dashboard</h1>
+
+  <div style="margin-bottom: 12px;">
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="Buy">Buy</option>
+      <option value="Rent">Rent</option>
+      <option value="Sell">Sell</option>
+    </select>
+
+    <input
+      type="text"
+      id="search"
+      placeholder="Search name / phone / location"
+      style="margin-left: 10px; padding: 4px;"
+    />
+
+    <button id="mapBtn">Map</button>
+
+    <button id="liveBtn" style="
+      float:right;
+      background: green;
+      color: white;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    ">
+      Live
+    </button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Location</th>
+        <th>Budget</th>
+        <th>Search Message</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody id="leads"></tbody>
+  </table>
+
+  <!-- 🔐 REQUIRED -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>

@@ -2,66 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SAAT – Internal Leads Dashboard</title>
+  <title>SAAT – Team Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<body style="display:none">
+  <div class="login-box">
+    <h2>SAAT Team Login</h2>
 
-  <!-- TOP BAR -->
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <h1>SAAT Leads Dashboard</h1>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
 
-    <div>
-      <button id="mapBtn">Map</button>
-      <button id="liveBtn" style="background:green;color:white;">Live</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
+    <button id="loginBtn">Login</button>
+    <p id="error" style="color:red;"></p>
   </div>
 
-  <div style="margin-bottom:12px;">
-    <select id="filter">
-      <option value="all">All</option>
-      <option value="Buy">Buy</option>
-      <option value="Rent">Rent</option>
-      <option value="Sell">Sell</option>
-    </select>
-
-    <input
-      id="search"
-      placeholder="Search name / phone / location"
-      style="margin-left:10px;padding:4px;"
-    />
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Location</th>
-        <th>Budget</th>
-        <th>Search Message</th>
-        <th>Created</th>
-      </tr>
-    </thead>
-    <tbody id="leads"></tbody>
-  </table>
-
-  <!-- MAP MODAL -->
-  <div
-    id="mapModal"
-    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;"
-  >
-    <div style="width:80%;height:80%;margin:5% auto;background:white;">
-      <button onclick="closeMap()">Close</button>
-      <iframe id="mapFrame" width="100%" height="100%"></iframe>
-    </div>
-  </div>
-
-  <!-- IMPORTANT: MODULE -->
-  <script type="module" src="app.js"></script>
+  <script type="module" src="login.js"></script>
 </body>
 </html>

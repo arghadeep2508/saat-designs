@@ -5,10 +5,18 @@ const supabase = createClient(
   "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
 );
 
-const {
-  data: { session },
-} = await supabase.auth.getSession();
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-if (session) {
-  window.location.replace("/");
-}
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    document.getElementById("error").innerText = error.message;
+  } else {
+    window.location.href = "/dashboard.html";
+  }
+});
