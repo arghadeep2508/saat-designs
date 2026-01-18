@@ -1,29 +1,20 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const supabase = createClient(
-  "https://ivtjnwuhjtihosutpmss.supabase.co",
-  "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
-);
-
 const form = document.getElementById("loginForm");
 const errorBox = document.getElementById("error");
 
-form.addEventListener("submit", async (e) => {
+// SIMPLE INTERNAL CREDENTIALS
+const INTERNAL_EMAIL = "admin@saat";
+const INTERNAL_PASSWORD = "123456";
+
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  errorBox.textContent = "";
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    errorBox.textContent = "Invalid login credentials";
-    return;
+  if (email === INTERNAL_EMAIL && password === INTERNAL_PASSWORD) {
+    localStorage.setItem("saat_logged_in", "true");
+    window.location.href = "dashboard.html";
+  } else {
+    errorBox.textContent = "Invalid credentials";
   }
-
-  window.location.href = "/dashboard.html";
 });
