@@ -5,7 +5,6 @@
   <title>SAAT – Internal Leads Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Leaflet (FREE map, no API key) -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -15,7 +14,7 @@
 
   <header class="top-bar">
     <h1>SAAT Leads Dashboard</h1>
-    <button id="liveBtn" class="live-btn">Live</button>
+    <span class="live-badge">Live</span>
   </header>
 
   <div class="controls">
@@ -26,12 +25,7 @@
       <option value="Sell">Sell</option>
     </select>
 
-    <input
-      type="text"
-      id="search"
-      placeholder="Search name / phone / location"
-    />
-
+    <input id="search" placeholder="Search name / phone / location" />
     <button id="mapBtn">Map</button>
   </div>
 
@@ -51,7 +45,6 @@
     <tbody id="leads"></tbody>
   </table>
 
-  <!-- MAP MODAL -->
   <div id="mapModal" class="modal hidden">
     <div class="modal-content">
       <h2>World Map (Demo)</h2>
@@ -60,7 +53,6 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="app.js"></script>
 </body>
