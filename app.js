@@ -1,30 +1,47 @@
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+/* ================= SUPABASE CONFIG ================= */
 const SUPABASE_URL = "https://ivtjnwuhjtihosutpmss.supabase.co";
-const SUPABASE_KEY =
+const SUPABASE_ANON_KEY =
   "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"; // PUBLIC KEY ONLY
 
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ================= AUTH CHECK ================= */
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) {
+  // 🔒 Not logged in → go to login page
+  window.location.href = "/login.html";
+}
+
+/* ================= DOM ELEMENTS ================= */
 const tableBody = document.getElementById("leads");
 const filter = document.getElementById("filter");
 const searchInput = document.getElementById("search");
 
+/* ================= STATE ================= */
 let allLeads = [];
 
-/* ---------------- FETCH DATA ---------------- */
+/* ================= FETCH LEADS ================= */
 async function loadLeads() {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-      },
-    }
-  );
+  const { data, error } = await supabase
+    .from("leads")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-  allLeads = await res.json();
+  if (error) {
+    console.error("Error loading leads:", error.message);
+    return;
+  }
+
+  allLeads = data;
   renderTable();
 }
 
-/* ---------------- RENDER TABLE ---------------- */
+/* ================= RENDER TABLE ================= */
 function renderTable() {
   const typeFilter = filter.value;
   const search = searchInput.value.toLowerCase();
@@ -59,9 +76,9 @@ function renderTable() {
     });
 }
 
-/* ---------------- EVENTS ---------------- */
+/* ================= EVENTS ================= */
 filter.addEventListener("change", renderTable);
 searchInput.addEventListener("input", renderTable);
 
-/* ---------------- INIT ---------------- */
+/* ================= INIT ================= */
 loadLeads();
