@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SAAT Leads Dashboard</title>
+  <title>SAAT – Leads Dashboard</title>
+
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Leaflet (FREE MAP) -->
+  <!-- Leaflet map -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -15,7 +16,7 @@
 
   <header class="top-bar">
     <h1>SAAT Leads Dashboard</h1>
-    <button id="liveBtn" class="live-btn">Live</button>
+    <button id="liveBtn" class="live-btn">LIVE</button>
   </header>
 
   <div class="controls">
@@ -26,7 +27,12 @@
       <option value="Sell">Sell</option>
     </select>
 
-    <input id="search" placeholder="Search name / phone / location" />
+    <input
+      id="search"
+      type="text"
+      placeholder="Search name / phone / location"
+    />
+
     <button id="mapBtn">Map</button>
   </div>
 
@@ -49,7 +55,7 @@
   <!-- MAP MODAL -->
   <div id="mapModal" class="modal hidden">
     <div class="modal-content">
-      <h3>World Map</h3>
+      <h3>World Map (Demo)</h3>
       <div id="map"></div>
       <button id="closeMap">Close</button>
     </div>
