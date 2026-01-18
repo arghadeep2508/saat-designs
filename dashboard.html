@@ -1,50 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
   <title>SAAT – Internal Leads Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="top-bar">
-    <h1>SAAT Leads Dashboard</h1>
-    <span id="liveBadge">Live</span>
+<script>
+  if (!localStorage.getItem("saat_logged_in")) {
+    window.location.href = "index.html";
+  }
+</script>
+
+<h1>SAAT Leads Dashboard</h1>
+
+<div class="top-bar">
+  <select id="filter">
+    <option value="all">All</option>
+    <option value="Buy">Buy</option>
+    <option value="Sell">Sell</option>
+    <option value="Rent">Rent</option>
+  </select>
+
+  <input id="search" placeholder="Search name / phone / location">
+
+  <button id="mapBtn">Map</button>
+
+  <button id="liveBtn" class="live-off">Live</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Phone</th>
+      <th>Email</th><th>Location</th><th>Budget</th>
+      <th>Message</th><th>Created</th>
+    </tr>
+  </thead>
+  <tbody id="leads"></tbody>
+</table>
+
+<!-- MAP MODAL -->
+<div id="mapModal" class="modal">
+  <div class="modal-box">
+    <h3>📍 Property Map (Demo)</h3>
+    <div id="mapList"></div>
+    <button onclick="closeMap()">Close</button>
   </div>
+</div>
 
-  <div class="controls">
-    <select id="filter">
-      <option value="all">All</option>
-      <option value="Buy">Buy</option>
-      <option value="Rent">Rent</option>
-      <option value="Sell">Sell</option>
-    </select>
-
-    <input
-      type="text"
-      id="search"
-      placeholder="Search name / phone / location"
-    />
-
-    <button id="mapBtn">Map</button>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Location</th>
-        <th>Budget</th>
-        <th>Search Message</th>
-        <th>Created</th>
-      </tr>
-    </thead>
-    <tbody id="leads"></tbody>
-  </table>
-
-  <script type="module" src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

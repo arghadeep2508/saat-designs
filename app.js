@@ -1,71 +1,58 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+const table = document.getElementById("leads");
+const mapBtn = document.getElementById("mapBtn");
+const mapModal = document.getElementById("mapModal");
+const mapList = document.getElementById("mapList");
+const liveBtn = document.getElementById("liveBtn");
 
-const supabase = createClient(
-  "https://ivtjnwuhjtihosutpmss.supabase.co",
-  "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn"
-);
+let liveInterval = null;
 
-/* ---------------- AUTH GUARD ---------------- */
-const {
-  data: { session },
-} = await supabase.auth.getSession();
+const names = ["Amit", "Riya", "Pooja", "Arjun", "Kunal"];
+const cities = ["Kolkata", "Delhi", "Mumbai", "Bangalore", "Pune"];
+const types = ["Buy", "Sell", "Rent"];
 
-if (!session) {
-  window.location.href = "index.html";
+function addLead() {
+  const name = names[Math.floor(Math.random()*5)];
+  const city = cities[Math.floor(Math.random()*5)];
+  const type = types[Math.floor(Math.random()*3)];
+
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${name}</td>
+    <td><span class="badge ${type.toLowerCase()}">${type}</span></td>
+    <td>9${Math.floor(Math.random()*100000000)}</td>
+    <td>${name.toLowerCase()}@gmail.com</td>
+    <td>${city}</td>
+    <td>${Math.floor(Math.random()*90)+10} lakh</td>
+    <td>${name} searched flat in ${city}</td>
+    <td>${new Date().toLocaleTimeString()}</td>
+  `;
+  table.prepend(row);
 }
 
-/* ---------------- ELEMENTS ---------------- */
-const tableBody = document.getElementById("leads");
-const filter = document.getElementById("filter");
-const searchInput = document.getElementById("search");
-
-let allLeads = [];
-
-/* ---------------- FETCH DATA ---------------- */
-async function loadLeads() {
-  const { data, error } = await supabase
-    .from("leads")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    return;
+/* LIVE BUTTON */
+liveBtn.onclick = () => {
+  if (liveInterval) {
+    clearInterval(liveInterval);
+    liveInterval = null;
+    liveBtn.className = "live-off";
+    liveBtn.innerText = "Live";
+  } else {
+    liveInterval = setInterval(addLead, 3000);
+    liveBtn.className = "live-on";
+    liveBtn.innerText = "Live ON";
   }
+};
 
-  allLeads = data;
-  renderTable();
+/* MAP BUTTON */
+mapBtn.onclick = () => {
+  mapList.innerHTML = "";
+  document.querySelectorAll("#leads tr").forEach(row => {
+    const loc = row.children[4].innerText;
+    mapList.innerHTML += `<div class="map-card">📍 ${loc}</div>`;
+  });
+  mapModal.style.display = "flex";
+};
+
+function closeMap() {
+  mapModal.style.display = "none";
 }
-
-/* ---------------- RENDER ---------------- */
-function renderTable() {
-  const typeFilter = filter.value;
-  const search = searchInput.value.toLowerCase();
-
-  tableBody.innerHTML = "";
-
-  allLeads
-    .filter((l) => (typeFilter === "all" ? true : l.type === typeFilter))
-    .filter((l) =>
-      `${l.name} ${l.phone} ${l.location}`.toLowerCase().includes(search)
-    )
-    .forEach((l) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${l.name}</td>
-        <td><span class="badge ${l.type.toLowerCase()}">${l.type}</span></td>
-        <td>${l.phone}</td>
-        <td>${l.email}</td>
-        <td>${l.location}</td>
-        <td>${l.budget}</td>
-        <td>${l.search_message}</td>
-        <td>${new Date(l.created_at).toLocaleString()}</td>
-      `;
-      tableBody.appendChild(tr);
-    });
-}
-
-filter.addEventListener("change", renderTable);
-searchInput.addEventListener("input", renderTable);
-
-loadLeads();
