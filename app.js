@@ -1,12 +1,13 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-/* ---------------- SUPABASE CONFIG ---------------- */
+/* ================= CONFIG ================= */
 const SUPABASE_URL = "https://ivtjnwuhjtihosutpmss.supabase.co";
-const SUPABASE_KEY = "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn";
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Ow9OuFlFoAEZhtQyL_aDaA_ZkKT5Izn";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ---------------- AUTH CHECK ---------------- */
+/* ================= AUTH GUARD ================= */
 const {
   data: { user },
 } = await supabase.auth.getUser();
@@ -15,17 +16,17 @@ if (!user) {
   window.location.href = "/login.html";
 }
 
-/* ---------------- DOM ---------------- */
+/* ================= DOM ================= */
 const tableBody = document.getElementById("leads");
 const filter = document.getElementById("filter");
 const searchInput = document.getElementById("search");
 const liveBtn = document.getElementById("liveBtn");
+const mapBtn = document.getElementById("mapBtn");
 
 let allLeads = [];
-let live = false;
-let intervalId = null;
+let liveInterval = null;
 
-/* ---------------- FETCH DATA (AUTH SAFE) ---------------- */
+/* ================= LOAD DATA ================= */
 async function loadLeads() {
   const { data, error } = await supabase
     .from("leads")
@@ -33,7 +34,7 @@ async function loadLeads() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Fetch error:", error.message);
+    console.error("Load error:", error.message);
     return;
   }
 
@@ -41,7 +42,7 @@ async function loadLeads() {
   renderTable();
 }
 
-/* ---------------- RENDER TABLE ---------------- */
+/* ================= RENDER ================= */
 function renderTable() {
   const typeFilter = filter.value;
   const search = searchInput.value.toLowerCase();
@@ -69,44 +70,46 @@ function renderTable() {
     });
 }
 
-/* ---------------- FILTER EVENTS ---------------- */
+/* ================= EVENTS ================= */
 filter.addEventListener("change", renderTable);
 searchInput.addEventListener("input", renderTable);
 
-/* ---------------- MAP ---------------- */
-document.getElementById("mapBtn").onclick = () => {
-  const locations = [...new Set(allLeads.map((l) => l.location))].join(" | ");
-  document.getElementById("mapFrame").src =
-    `https://www.google.com/maps?q=${encodeURIComponent(locations)}&output=embed`;
+/* ================= LIVE BUTTON ================= */
+liveBtn.addEventListener("click", async () => {
+  if (liveInterval) {
+    clearInterval(liveInterval);
+    liveInterval = null;
+    liveBtn.textContent = "Live";
+    liveBtn.style.background = "green";
+    return;
+  }
+
+  liveBtn.textContent = "Stop";
+  liveBtn.style.background = "red";
+
+  liveInterval = setInterval(async () => {
+    await fetch(
+      "https://ivtjnwuhjtihosutpmss.functions.supabase.co/generate-lead"
+    );
+    await loadLeads();
+  }, 3000);
+});
+
+/* ================= MAP ================= */
+mapBtn.addEventListener("click", () => {
+  if (!allLeads.length) return alert("No leads");
+
+  const loc = allLeads[0].location;
   document.getElementById("mapModal").style.display = "block";
-};
+  document.getElementById("mapFrame").src =
+    "https://maps.google.com/maps?q=" +
+    encodeURIComponent(loc) +
+    "&output=embed";
+});
 
 window.closeMap = () => {
   document.getElementById("mapModal").style.display = "none";
 };
 
-/* ---------------- LIVE BUTTON ---------------- */
-liveBtn.onclick = () => {
-  live = !live;
-
-  if (live) {
-    liveBtn.style.background = "red";
-    liveBtn.innerText = "Stop";
-
-    intervalId = setInterval(async () => {
-      await fetch(`${SUPABASE_URL}/functions/v1/generate-lead`, {
-        headers: {
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-        },
-      });
-      loadLeads();
-    }, 5000);
-  } else {
-    liveBtn.style.background = "green";
-    liveBtn.innerText = "Live";
-    clearInterval(intervalId);
-  }
-};
-
-/* ---------------- INIT ---------------- */
+/* ================= INIT ================= */
 loadLeads();
