@@ -57,3 +57,66 @@ th, td { border:1px solid #ddd; padding:6px; }
   height: 400px;
   margin-bottom: 10px;
 }
+
+/* ===== SAAT DASHBOARD COLOR POLISH (SAFE) ===== */
+
+/* Header */
+.top-bar h1 {
+  color: #111;
+  letter-spacing: 0.5px;
+}
+
+/* Live button polish */
+.live-btn {
+  background: linear-gradient(135deg, #1faa00, #138000);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
+}
+.live-btn:hover {
+  opacity: 0.9;
+}
+
+/* Table header */
+table thead tr {
+  background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+  color: #fff;
+}
+
+/* Table rows */
+table tbody tr {
+  transition: background 0.2s ease;
+}
+table tbody tr:hover {
+  background: #f4f7fb;
+}
+
+/* Type badge coloring */
+td:nth-child(2) {
+  font-weight: bold;
+}
+td:nth-child(2):contains("Buy") {
+  color: #0a8a0a;
+}
+td:nth-child(2):contains("Sell") {
+  color: #c40000;
+}
+td:nth-child(2):contains("Rent") {
+  color: #004fd8;
+}
+
+/* Inputs & controls */
+.controls select,
+.controls input,
+.controls button {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.controls button:hover {
+  background: #efefef;
+}
+
+/* Map modal */
+.modal-content {
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
