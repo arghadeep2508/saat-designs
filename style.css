@@ -152,3 +152,92 @@ table thead tr {
   background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
   color: white;
 }
+/* ===== Dashboard Enhancements (SAFE) ===== */
+
+body {
+  background: #f5f7fb;
+}
+
+.top-bar {
+  background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  padding: 12px 20px;
+}
+
+.top-bar h1 {
+  margin: 0;
+}
+
+.live-btn {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+thead {
+  background: #111;
+  color: white;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+tbody tr:hover {
+  background: #eef2ff;
+}
+
+/* Type badges */
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.buy { background: #16a34a; }
+.sell { background: #dc2626; }
+.rent { background: #2563eb; }
+
+/* Map modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 80%;
+  max-width: 900px;
+  border-radius: 10px;
+}
+
+#map {
+  height: 400px;
+  margin: 10px 0;
+}
